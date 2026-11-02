@@ -4,16 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Aplikasi Web - Pinjam Dong</title>
+  <title>Aplikasi Pinjam Dong - Solusi Teknologi Pinjam Uang</title>
   
-  <!-- SEO & Favicon Meta -->
-  <meta name="theme-color" content="#0b0f19">
+  <!-- SEO & Dynamic Theme Color (Menyesuaikan Warna Tab Browser Soft Sage) -->
+  <meta name="theme-color" content="#dcecd8">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230b0f19'/><polygon points='25,80 50,20 75,80' fill='%2300ffaa'/></svg>">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  
+  <!-- Favicon Eksklusif: Monogram Elegan Pinjam Dong (Bukan Segitiga) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231b4332'/%3E%3Cstop offset='100%25' stop-color='%232d6a4f'/%3E%3C/linearGradient%3E%3ClinearGradient id='a' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2374c69d'/%3E%3Cstop offset='100%25' stop-color='%2352b788'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='18' fill='url(%23g)'/%3E%3Ccircle cx='32' cy='32' r='24' fill='none' stroke='url(%23a)' stroke-width='2' stroke-dasharray='4 3' opacity='0.7'/%3E%3Cpath d='M22 18h11a9 9 0 0 1 9 9c0 5-4 9-9 9H22V18z' fill='none' stroke='%23ffffff' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M22 36v10' stroke='%2374c69d' stroke-width='4.5' stroke-linecap='round'/%3E%3Ccircle cx='41' cy='37' r='6' fill='%2352b788'/%3E%3Cpath d='M41 34v6M38 37h6' stroke='%23ffffff' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
 
   <style>
-    /* CSS Reset & Zettbos Dark Architecture */
+    /* CSS Reset & Soft Organic Styling */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -25,12 +27,12 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background-color: #0b0f19;
+      background-color: #eaf3ea;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: #f1f5f9;
+      color: #1b4332;
     }
 
-    /* Fullscreen Wrapper Container */
+    /* Container Fullscreen */
     .app-container {
       position: fixed;
       top: 0;
@@ -40,37 +42,38 @@
       width: 100vw;
       height: 100vh;
       overflow: hidden;
-      background-color: #0b0f19;
+      background-color: #eaf3ea;
     }
 
-    /* Iframe Styling */
+    /* Iframe Wrapper */
     .app-frame {
       width: 100%;
       height: 100%;
       border: none;
       display: block;
       opacity: 0;
-      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .app-frame.loaded {
       opacity: 1;
     }
 
-    /* Loading Overlay Glassmorphism */
+    /* Soft & Elegant Loading Screen */
     .loader-screen {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at center, #151b26 0%, #0b0f19 100%);
+      background: radial-gradient(circle at 50% 35%, #f6fbf6 0%, #e8f3e9 55%, #dbebdc 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 1000;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
+      padding: 24px;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
     }
 
     .loader-screen.hidden {
@@ -79,77 +82,164 @@
       pointer-events: none;
     }
 
-    /* Neon Spinner */
-    .spinner-box {
+    /* Glassmorphism Card Box */
+    .brand-card {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 28px;
+      padding: 36px 32px 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 340px;
+      width: 90%;
+      box-shadow: 
+        0 10px 30px -10px rgba(27, 67, 50, 0.1),
+        0 20px 40px -15px rgba(27, 67, 50, 0.06);
+      animation: floatIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Logo Emblem Container */
+    .logo-box {
       position: relative;
-      width: 64px;
-      height: 64px;
+      width: 86px;
+      height: 86px;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .spinner-ring {
-      position: absolute;
+    .logo-svg {
       width: 100%;
       height: 100%;
-      border-radius: 50%;
-      border: 3px solid rgba(0, 255, 170, 0.15);
-      border-top-color: #00ffaa;
-      animation: spin 1s linear infinite;
-      box-shadow: 0 0 16px rgba(0, 255, 170, 0.25);
+      filter: drop-shadow(0 8px 16px rgba(45, 106, 79, 0.18));
+      animation: gentlePulse 3s ease-in-out infinite alternate;
     }
 
-    .spinner-core {
-      width: 18px;
-      height: 18px;
-      background-color: #00ffaa;
-      border-radius: 50%;
-      box-shadow: 0 0 12px #00ffaa;
-      animation: pulse 1.6s ease-in-out infinite alternate;
-    }
-
-    .loader-text {
-      margin-top: 24px;
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 0.8px;
-      color: #94a3b8;
+    /* Typography */
+    .brand-title {
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: 2.2px;
+      color: #1b4332;
+      margin-bottom: 4px;
       text-transform: uppercase;
     }
 
-    .loader-subtext {
-      margin-top: 6px;
+    .brand-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.8px;
+      color: #2d6a4f;
+      text-transform: uppercase;
+      background: rgba(82, 183, 136, 0.18);
+      padding: 4px 12px;
+      border-radius: 12px;
+      margin-bottom: 22px;
+    }
+
+    /* Elegant Soft Progress Bar */
+    .progress-track {
+      width: 100%;
+      height: 5px;
+      background: rgba(45, 106, 79, 0.12);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .progress-indicator {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 45%;
+      background: linear-gradient(90deg, #52b788 0%, #2d6a4f 100%);
+      border-radius: 10px;
+      animation: progressAnim 1.6s ease-in-out infinite;
+    }
+
+    .status-caption {
       font-size: 12px;
-      color: #64748b;
+      color: #5b7a68;
+      font-weight: 500;
+      letter-spacing: 0.4px;
     }
 
-    /* Keyframes */
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    /* Animasi */
+    @keyframes floatIn {
+      0% {
+        opacity: 0;
+        transform: translateY(18px) scale(0.96);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
-    @keyframes pulse {
-      0% { transform: scale(0.85); opacity: 0.6; }
-      100% { transform: scale(1.15); opacity: 1; }
+    @keyframes gentlePulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.05); }
+    }
+
+    @keyframes progressAnim {
+      0% { left: -45%; }
+      50% { left: 40%; width: 55%; }
+      100% { left: 105%; }
     }
   </style>
 </head>
 <body>
 
   <div class="app-container">
-    <!-- Animated Loader Glassmorphism -->
+    <!-- Soft & Elegant Loader Screen -->
     <div id="loaderScreen" class="loader-screen">
-      <div class="spinner-box">
-        <div class="spinner-ring"></div>
-        <div class="spinner-core"></div>
+      <div class="brand-card">
+        <!-- Logo Vektor Pinjam Dong -->
+        <div class="logo-box">
+          <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Lingkaran Luar dengan Gradien Halus -->
+            <circle cx="50" cy="50" r="46" fill="url(#bgGrad)" stroke="#ffffff" stroke-width="2"/>
+            <circle cx="50" cy="50" r="41" stroke="#74c69d" stroke-width="1.8" stroke-dasharray="5 4" opacity="0.6"/>
+            
+            <!-- Simbol Huruf Monogram 'P' & 'D' / Dinamika Sirkulasi Pinjaman -->
+            <path d="M35 28H52C60.2843 28 67 34.7157 67 43C67 51.2843 60.2843 58 52 58H35V28Z" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M35 58V72" stroke="#b7e4c7" stroke-width="6" stroke-linecap="round"/>
+            <path d="M42 43H51" stroke="#d8f3dc" stroke-width="4" stroke-linecap="round"/>
+            
+            <!-- Ikon Sirkulasi / Pertumbuhan Daun -->
+            <circle cx="65" cy="59" r="10" fill="#2d6a4f" stroke="#ffffff" stroke-width="2"/>
+            <path d="M65 54V64M60 59H70" stroke="#74c69d" stroke-width="2.5" stroke-linecap="round"/>
+            
+            <defs>
+              <linearGradient id="bgGrad" x1="15" y1="15" x2="85" y2="85" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#2d6a4f"/>
+                <stop stop-color="#1b4332"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <!-- Tipografi Branding -->
+        <h1 class="brand-title">PINJAM DONG</h1>
+        <div class="brand-badge">By Fanesa Basir</div>
+
+        <!-- Progress Loading Shimmer -->
+        <div class="progress-track">
+          <div class="progress-indicator"></div>
+        </div>
+        <p class="status-caption">Menghubungkan ke Layanan Pinjam Dong - By Fanesa Basir</p>
       </div>
-      <p class="loader-text">Memuat Sistem...</p>
-      <span class="loader-subtext">Menghubungkan ke Aplikasi Engine</span>
     </div>
 
-    <!-- Apps Script Embedded Web App -->
+    <!-- Iframe Google Apps Script Engine -->
     <iframe 
       id="mainFrame"
       class="app-frame"
@@ -157,12 +247,12 @@
       allow="accelerometer; autoplay; camera; clipboard-read; clipboard-write; encrypted-media; geolocation; gyroscope; microphone"
       sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
       onload="handleFrameLoad()"
-      title="Aplikasi Web - Pinjam Dong">
+      title="Pinjam Dong - By Fanesa Basir">
     </iframe>
   </div>
 
   <script>
-    // Penanganan transisi loading halus saat iframe selesai dimuat
+    // Transisi halus fade-out loader saat konten Web App siap
     function handleFrameLoad() {
       const loader = document.getElementById('loaderScreen');
       const frame = document.getElementById('mainFrame');
@@ -174,11 +264,11 @@
       if (loader) {
         setTimeout(function() {
           loader.classList.add('hidden');
-        }, 300);
+        }, 350);
       }
     }
 
-    // Safety fallback: Hilangkan loader otomatis jika koneksi lambat melebihi 8 detik
+    // Safety timeout fallback: memastikan halaman tetap terbuka jika jaringan lambat
     setTimeout(function() {
       const loader = document.getElementById('loaderScreen');
       const frame = document.getElementById('mainFrame');
@@ -188,7 +278,7 @@
       if (frame && !frame.classList.contains('loaded')) {
         frame.classList.add('loaded');
       }
-    }, 8000);
+    }, 7000);
   </script>
 </body>
 </html>
