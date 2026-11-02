@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Aplikasi Web - Pinjam Dong</title>
+  
+  <!-- SEO & Favicon Meta -->
+  <meta name="theme-color" content="#0b0f19">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230b0f19'/><polygon points='25,80 50,20 75,80' fill='%2300ffaa'/></svg>">
+
+  <style>
+    /* CSS Reset & Zettbos Dark Architecture */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #0b0f19;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #f1f5f9;
+    }
+
+    /* Fullscreen Wrapper Container */
+    .app-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #0b0f19;
+    }
+
+    /* Iframe Styling */
+    .app-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      opacity: 0;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .app-frame.loaded {
+      opacity: 1;
+    }
+
+    /* Loading Overlay Glassmorphism */
+    .loader-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, #151b26 0%, #0b0f19 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .loader-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* Neon Spinner */
+    .spinner-box {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spinner-ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 3px solid rgba(0, 255, 170, 0.15);
+      border-top-color: #00ffaa;
+      animation: spin 1s linear infinite;
+      box-shadow: 0 0 16px rgba(0, 255, 170, 0.25);
+    }
+
+    .spinner-core {
+      width: 18px;
+      height: 18px;
+      background-color: #00ffaa;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #00ffaa;
+      animation: pulse 1.6s ease-in-out infinite alternate;
+    }
+
+    .loader-text {
+      margin-top: 24px;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
+      color: #94a3b8;
+      text-transform: uppercase;
+    }
+
+    .loader-subtext {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    /* Keyframes */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.85); opacity: 0.6; }
+      100% { transform: scale(1.15); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Animated Loader Glassmorphism -->
+    <div id="loaderScreen" class="loader-screen">
+      <div class="spinner-box">
+        <div class="spinner-ring"></div>
+        <div class="spinner-core"></div>
+      </div>
+      <p class="loader-text">Memuat Sistem...</p>
+      <span class="loader-subtext">Menghubungkan ke Aplikasi Engine</span>
+    </div>
+
+    <!-- Apps Script Embedded Web App -->
+    <iframe 
+      id="mainFrame"
+      class="app-frame"
+      src="https://script.google.com/macros/s/AKfycbwmDII_cNz27Ggv7V5e_WoTiqhLZY0DK3LyyflaYRQoMhYJduMsIuNTuY6hy_UkD0ZAnw/exec"
+      allow="accelerometer; autoplay; camera; clipboard-read; clipboard-write; encrypted-media; geolocation; gyroscope; microphone"
+      sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+      onload="handleFrameLoad()"
+      title="Aplikasi Web - Pinjam Dong">
+    </iframe>
+  </div>
+
+  <script>
+    // Penanganan transisi loading halus saat iframe selesai dimuat
+    function handleFrameLoad() {
+      const loader = document.getElementById('loaderScreen');
+      const frame = document.getElementById('mainFrame');
+
+      if (frame) {
+        frame.classList.add('loaded');
+      }
+
+      if (loader) {
+        setTimeout(function() {
+          loader.classList.add('hidden');
+        }, 300);
+      }
+    }
+
+    // Safety fallback: Hilangkan loader otomatis jika koneksi lambat melebihi 8 detik
+    setTimeout(function() {
+      const loader = document.getElementById('loaderScreen');
+      const frame = document.getElementById('mainFrame');
+      if (loader && !loader.classList.contains('hidden')) {
+        loader.classList.add('hidden');
+      }
+      if (frame && !frame.classList.contains('loaded')) {
+        frame.classList.add('loaded');
+      }
+    }, 8000);
+  </script>
+</body>
+</html>
