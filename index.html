@@ -199,6 +199,9 @@
 <body>
 
   <div class="app-container">
+    <!-- Sensor Area untuk mendeteksi usapan (Tarik ke bawah / Pull-to-Refresh) -->
+    <div id="pullSensor" style="position: absolute; top: 0; left: 0; width: 100%; height: 25px; z-index: 900; background: transparent; touch-action: none;"></div>
+
     <!-- Soft & Elegant Loader Screen -->
     <div id="loaderScreen" class="loader-screen">
       <div class="brand-card">
@@ -245,7 +248,7 @@
       class="app-frame"
       src="https://script.google.com/macros/s/AKfycbwZlW1OQPchbOueqTHx0M-Rm0G8ETTCf7FLLlcLaFMWGdrtTxqPo5Q5jmO3WWp6bWSjBQ/exec"
       allow="accelerometer; autoplay; camera; clipboard-read; clipboard-write; encrypted-media; geolocation; gyroscope; microphone"
-      sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+      sandbox="allow-downloads allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
       onload="handleFrameLoad()"
       title="Pinjam Dong - By Fanesa Basir">
     </iframe>
@@ -279,6 +282,51 @@
         frame.classList.add('loaded');
       }
     }, 7000);
+
+    // --- FITUR BARU: Pull-to-Refresh (Tarik ke Bawah untuk Refresh) ---
+    // Karena iframe memblokir sentuhan ke parent, kita pakai area sensor tak kasat mata di ujung atas layar
+    const pullSensor = document.getElementById('pullSensor');
+    let startY = 0;
+    let isPulling = false;
+
+    if (pullSensor) {
+      pullSensor.addEventListener('touchstart', function(e) {
+        if (e.touches.length === 1) {
+          startY = e.touches[0].clientY;
+          isPulling = true;
+        }
+      }, { passive: true });
+
+      pullSensor.addEventListener('touchmove', function(e) {
+        if (!isPulling) return;
+        const currentY = e.touches[0].clientY;
+        const distance = currentY - startY;
+        
+        // Jika pengguna mengusap (menarik) layar ke bawah lebih dari 80 pixel dari area atas
+        if (distance > 80) {
+          isPulling = false; // Matikan sensor sejenak agar tidak terpicu berulang kali
+          
+          const loader = document.getElementById('loaderScreen');
+          if (loader) {
+            // Ubah teks loading menjadi teks menyegarkan (opsional)
+            const statusCaption = loader.querySelector('.status-caption');
+            if (statusCaption) statusCaption.innerText = "Menyegarkan data...";
+            
+            // Munculkan layar loading kembali untuk transisi yang elegan
+            loader.classList.remove('hidden');
+          }
+
+          // Reload/Refresh aplikasi penuh setelah jeda animasi 300ms
+          setTimeout(function() {
+            window.location.reload();
+          }, 300);
+        }
+      }, { passive: true });
+
+      pullSensor.addEventListener('touchend', function() {
+        isPulling = false;
+      });
+    }
   </script>
 </body>
 </html>
